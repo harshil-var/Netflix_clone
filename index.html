@@ -10,6 +10,33 @@
 
 <body>
 
+    <!-- Splash Screen -->
+    <div class="splash-screen">
+        <div class="splash-overlay"></div>
+        <div class="splash-container">
+            <div class="splash-carousel">
+                <div class="splash-slide active" style="background-image: url('assets/images/bg.jpg')"></div>
+                <div class="splash-slide" style="background-image: url('assets/images/download.jpg')"></div>
+                <div class="splash-slide" style="background-image: url('assets/images/download (1).jpg')"></div>
+                <div class="splash-slide" style="background-image: url('assets/images/images.jpg')"></div>
+            </div>
+            <div class="splash-content">
+                <img src="assets/images/logo.svg" alt="Netflix" class="splash-logo">
+                <h1 class="splash-title">Dive Into Cinema World</h1>
+                <p class="splash-subtitle">Unlimited Movies, Series & Adventures Await</p>
+                <button class="splash-btn" onclick="document.querySelector('.splash-screen').style.display='none'">
+                    Explore Now
+                </button>
+            </div>
+            <div class="splash-dots">
+                <span class="dot active" onclick="goToSlide(0)"></span>
+                <span class="dot" onclick="goToSlide(1)"></span>
+                <span class="dot" onclick="goToSlide(2)"></span>
+                <span class="dot" onclick="goToSlide(3)"></span>
+            </div>
+        </div>
+    </div>
+
     <div class="main">
         <nav>
             <span><img width="53" src="assets/images/logo.svg" alt=""></span>
@@ -163,5 +190,48 @@
         </div>
     </footer>
 </body>
+
+<script>
+// Splash Screen Carousel Functionality
+let currentSlide = 0;
+const slides = document.querySelectorAll('.splash-slide');
+const dots = document.querySelectorAll('.dot');
+
+function showSlide(index) {
+    // Remove active class from all slides and dots
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    // Add active class to current slide and dot
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+}
+
+function goToSlide(index) {
+    currentSlide = index;
+    showSlide(currentSlide);
+    // Reset auto-rotate timer
+    clearInterval(autoRotateTimer);
+    autoRotateTimer = setInterval(nextSlide, 6000);
+}
+
+// Auto-rotate carousel every 6 seconds
+let autoRotateTimer = setInterval(nextSlide, 6000);
+
+// Pause auto-rotate on mouse hover
+const splashScreen = document.querySelector('.splash-screen');
+splashScreen.addEventListener('mouseenter', () => {
+    clearInterval(autoRotateTimer);
+});
+
+splashScreen.addEventListener('mouseleave', () => {
+    autoRotateTimer = setInterval(nextSlide, 6000);
+});
+</script>
 
 </html>

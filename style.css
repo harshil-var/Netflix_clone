@@ -10,6 +10,200 @@ body {
     background-color: black;
 }
 
+/* ============ SPLASH SCREEN STYLES ============ */
+
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: black;
+}
+
+.splash-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(229, 9, 20, 0.3));
+    z-index: 1;
+}
+
+.splash-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.splash-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+    animation: zoomPan 8s ease-in-out infinite;
+}
+
+.splash-slide.active {
+    opacity: 1;
+    animation: zoomPan 8s ease-in-out infinite;
+}
+
+@keyframes zoomPan {
+    0% {
+        transform: scale(1) translateX(0);
+    }
+    50% {
+        transform: scale(1.05) translateX(10px);
+    }
+    100% {
+        transform: scale(1) translateX(0);
+    }
+}
+
+.splash-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    animation: fadeInUp 1s ease-out 0.5s both;
+    max-width: 600px;
+}
+
+.splash-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 30px;
+    animation: fadeInDown 1s ease-out both;
+    filter: brightness(1.2);
+}
+
+.splash-title {
+    font-size: 64px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    letter-spacing: -1px;
+}
+
+.splash-subtitle {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 40px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+    font-weight: 300;
+}
+
+.splash-btn {
+    padding: 14px 48px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #e50914, #e81828);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
+    animation: slideUp 1s ease-out 0.8s both;
+}
+
+.splash-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(229, 9, 20, 0.6);
+    background: linear-gradient(135deg, #f5111b, #ed1e2e);
+}
+
+.splash-btn:active {
+    transform: translateY(-1px);
+}
+
+.splash-dots {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    gap: 12px;
+    animation: fadeInUp 1s ease-out 1.1s both;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.dot.active {
+    background-color: #e50914;
+    box-shadow: 0 0 10px rgba(229, 9, 20, 0.8);
+    width: 14px;
+    height: 14px;
+}
+
+.dot:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============ END SPLASH SCREEN STYLES ============ */
+
+
+
 .main {
     background-image: url("assets/images/bg.jpg");
     background-position: center center;
@@ -226,9 +420,87 @@ footer .questions {
     color: white;
 }
 
+/* ============ RESPONSIVE SPLASH SCREEN ============ */
+
+@media screen and (max-width: 768px) {
+    .splash-title {
+        font-size: 42px;
+    }
+
+    .splash-subtitle {
+        font-size: 18px;
+    }
+
+    .splash-btn {
+        padding: 12px 36px;
+        font-size: 16px;
+    }
+
+    .splash-logo {
+        width: 90px;
+    }
+
+    .splash-dots {
+        bottom: 30px;
+        gap: 10px;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+    }
+
+    .dot.active {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .splash-title {
+        font-size: 32px;
+        margin-bottom: 15px;
+    }
+
+    .splash-subtitle {
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .splash-btn {
+        padding: 10px 30px;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+    }
+
+    .splash-logo {
+        width: 80px;
+        margin-bottom: 20px;
+    }
+
+    .splash-content {
+        max-width: 90%;
+    }
+
+    .splash-dots {
+        bottom: 20px;
+        gap: 8px;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .dot.active {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+/* ============ END RESPONSIVE SPLASH SCREEN ============ */
 
 
-@media screen and (max-width: 1300px) {
 
     nav{
         max-width: 90vw;
@@ -304,35 +576,4 @@ footer .questions {
     display: flex;
     flex-direction: column;
     gap: 23px;
-}
-
-/* Splash Screen Styles */
-.splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('https://via.placeholder.com/1920x1080') center/cover no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    color: white;
-    text-align: center;
-}
-
-.splash-content h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.splash-content p {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.splash-content .btn {
-    font-size: 1.2rem;
-    padding: 0.5rem 2rem;
 }
