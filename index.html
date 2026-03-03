@@ -14,13 +14,23 @@
     <div class="splash-screen">
         <div class="splash-overlay"></div>
         <div class="splash-container">
-            <div class="splash-carousel">
-                <div class="splash-slide active" style="background-image: url('assets/images/bg.jpg')"></div>
-                <div class="splash-slide" style="background-image: url('assets/images/download.jpg')"></div>
-                <div class="splash-slide" style="background-image: url('assets/images/download (1).jpg')"></div>
-                <div class="splash-slide" style="background-image: url('assets/images/images.jpg')"></div>
+            <!-- Netflix Intro Video -->
+            <div class="splash-video-container" id="videoContainer">
+                <video class="splash-intro-video" id="introVideo" autoplay muted playsinline>
+                    <source src="assets/videos/Netflix_intro.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <button class="skip-video-btn" onclick="skipIntroVideo()">Skip Intro</button>
             </div>
-            <div class="splash-content">
+
+            <!-- Image Carousel (shown after video) -->
+            <div class="splash-carousel" id="carousel" style="display: none;">
+                <div class="splash-slide active" style="background-image: url('assets/images/bg.jpg')"></div>
+                <div class="splash-slide" style="background-image: url('assets/images/img.jpg')"></div>
+                <div class="splash-slide" style="background-image: url('assets/images/img2.jpg')"></div>
+                <div class="splash-slide" style="background-image: url('assets/images/img3.jpg')"></div>
+            </div>
+            <div class="splash-content" id="splashContent" style="display: none;">
                 <img src="assets/images/logo.svg" alt="Netflix" class="splash-logo">
                 <h1 class="splash-title">Dive Into Cinema World</h1>
                 <p class="splash-subtitle">Unlimited Movies, Series & Adventures Await</p>
@@ -28,7 +38,7 @@
                     Explore Now
                 </button>
             </div>
-            <div class="splash-dots">
+            <div class="splash-dots" id="splashDots" style="display: none;">
                 <span class="dot active" onclick="goToSlide(0)"></span>
                 <span class="dot" onclick="goToSlide(1)"></span>
                 <span class="dot" onclick="goToSlide(2)"></span>
@@ -57,9 +67,56 @@
             </div>
         </div>
 
-        <div class="separation"></div>
-
     </div>
+
+    <!-- Trending Movies Section -->
+    <section class="trending-section">
+        <div class="trending-header">
+            <h2>Trending Now</h2>
+            <p>Top 10 Most Popular Movies This Week</p>
+        </div>
+        
+        <div class="trending-container">
+            <button class="scroll-btn scroll-btn-left" onclick="scrollTrending('left')">❮</button>
+            
+            <div class="trending-movies">
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/download.jpg');">
+                    <div class="movie-rank">1</div>
+                </div>
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/download (1).jpg');">
+                    <div class="movie-rank">2</div>
+                </div>
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/download (2).jpg');">
+                    <div class="movie-rank">3</div>
+                </div>
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/download (3).jpg');">
+                    <div class="movie-rank">4</div>
+                </div>
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/download (4).jpg');">
+                    <div class="movie-rank">5</div>
+                </div>
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/download (5).jpg');">
+                    <div class="movie-rank">6</div>
+                </div>
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/download (6).jpg');">
+                    <div class="movie-rank">7</div>
+                </div>
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/download (7).jpg');">
+                    <div class="movie-rank">8</div>
+                </div>
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/images (1).jpg');">
+                    <div class="movie-rank">9</div>
+                </div>
+                <div class="trending-movie-card" style="background-image: url('assets/Trending/images.jpg');">
+                    <div class="movie-rank">10</div>
+                </div>
+            </div>
+            
+            <button class="scroll-btn scroll-btn-right" onclick="scrollTrending('right')">❯</button>
+        </div>
+    </section>
+
+    <div class="separation"></div>
 
     <section class="first">
         <div>
@@ -70,7 +127,7 @@
         <div class="secImg">
             <img src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/tv.png" alt="">
             <video src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/video-tv-in-0819.m4v"
-                autoplay loop muted></video>
+                autoplay loop></video>
         </div>
     </section>
     <div class="separation"></div>
@@ -192,10 +249,67 @@
 </body>
 
 <script>
+// Trending Movies Scroll Function
+function scrollTrending(direction) {
+    const trendingMovies = document.querySelector('.trending-movies');
+    const scrollAmount = 250; // Scroll distance in pixels
+    
+    if (direction === 'left') {
+        trendingMovies.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+    } else if (direction === 'right') {
+        trendingMovies.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// Get Elements
+const introVideo = document.getElementById('introVideo');
+const videoContainer = document.getElementById('videoContainer');
+const carousel = document.getElementById('carousel');
+const splashContent = document.getElementById('splashContent');
+const splashDots = document.getElementById('splashDots');
+
+// Function to transition from video to carousel
+function transitionToCarousel() {
+    // Hide video container
+    videoContainer.style.display = 'none';
+    
+    // Show carousel
+    carousel.style.display = 'block';
+    splashContent.style.display = 'block';
+    splashDots.style.display = 'flex';
+    
+    // Start the carousel rotation
+    startCarousel();
+}
+
+// Function to skip intro video
+function skipIntroVideo() {
+    clearTimeout(videoTimeout);
+    transitionToCarousel();
+}
+
+// Handle video end event
+introVideo.addEventListener('ended', function() {
+    clearTimeout(videoTimeout);
+    transitionToCarousel();
+});
+
+// Fallback timeout - show carousel after 8 seconds
+let videoTimeout = setTimeout(function() {
+    transitionToCarousel();
+}, 8000);
+
 // Splash Screen Carousel Functionality
 let currentSlide = 0;
 const slides = document.querySelectorAll('.splash-slide');
 const dots = document.querySelectorAll('.dot');
+let autoRotateTimer;
 
 function showSlide(index) {
     // Remove active class from all slides and dots
@@ -220,18 +334,20 @@ function goToSlide(index) {
     autoRotateTimer = setInterval(nextSlide, 6000);
 }
 
-// Auto-rotate carousel every 6 seconds
-let autoRotateTimer = setInterval(nextSlide, 6000);
-
-// Pause auto-rotate on mouse hover
-const splashScreen = document.querySelector('.splash-screen');
-splashScreen.addEventListener('mouseenter', () => {
-    clearInterval(autoRotateTimer);
-});
-
-splashScreen.addEventListener('mouseleave', () => {
+function startCarousel() {
+    // Auto-rotate carousel every 6 seconds
     autoRotateTimer = setInterval(nextSlide, 6000);
-});
+    
+    // Pause auto-rotate on mouse hover
+    const carousel = document.getElementById('carousel');
+    carousel.addEventListener('mouseenter', () => {
+        clearInterval(autoRotateTimer);
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+        autoRotateTimer = setInterval(nextSlide, 6000);
+    });
+}
 </script>
 
 </html>
